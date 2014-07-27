@@ -21,7 +21,6 @@ Droonga移行後の\n
 
 = 話題
 
-  * 基礎知識
   * 運用方法
   * 特有の機能
   * 今後の開発
@@ -36,8 +35,7 @@ Droonga移行後の\n
 
 = 話題1
 
-  * ((*基礎知識*))
-  * 運用方法
+  * ((*運用方法*))
   * 特有の機能
   * 今後の開発
 
@@ -158,4 +156,158 @@ Droonga移行後の\n
   # image
   # src = images/droonga-engine-cluster-monitor-items.svg
   # relative-height = 100
+
+= エンジン図
+
+  # image
+  # src = images/droonga-engine.svg
+  # relative-height = 100
+
+= エンジン
+
+  * データを持ち、処理する
+  * 1エンジンnワーカー
+    * マルチプロセス
+  * 自律的に構成を変更
+    * 管理ノードなし
+    * あるエンジンがダウンしたら\n
+      自分が持つクラスター情報を更新
+
+= 監視項目
+
+  * 監視しなくてよい
+  * エンジンクラスター監視で十分
+
+= 死活監視のおさらい
+
+  * 目的
+    * システムの正常動作を確認
+  * システムの構成要素
+    * HTTPサーバー
+    * エンジンクラスター
+    * エンジン
+
+= Droongaクラスター
+
+  # image
+  # src = images/droonga-system.svg
+  # relative-height = 100
+
+= HTTPサーバーの監視
+
+  # image
+  # src = images/droonga-http-server-monitor-items.svg
+  # relative-height = 100
+
+= エンジンクラスターの監視
+
+  # image
+  # src = images/droonga-engine-cluster-monitor-items.svg
+  # relative-height = 100
+
+= 死活監視
+
+  * HTTPサーバー
+    * HTTPの機能をチェック
+    * プロキシの機能をチェック
+  * エンジンクラスター
+    * 生存レプリカ数をチェック
+  * エンジン
+    * 死活監視しなくてよい
+
+= 運用方法：死活監視
+
+  * ((*死活監視*))
+  * パフォーマンス監視
+  * クラスター構成の変更方法
+
+= パフォーマンス監視
+
+  * 死活監視
+  * ((*パフォーマンス監視*))
+  * クラスター構成の変更方法
+
+= パフォーマンス監視
+
+  * 監視項目
+  * 監視方法
+
+= 監視項目
+
+  * 検索時間
+    * 目的：スロークエリを発見
+  * キャッシュヒット率
+    * 目的：検索処理の削減
+  * CPU使用率
+    * 目的：ボトルネックの解消
+
+= 監視方法
+
+  * 検索時間
+    * アプリケーション側で計測
+  * キャッシュヒット率
+    * "/statistics/cache"をGET
+  * CPU使用率
+    * 既存の統計情報可視化ツール
+    * 例：Munin
+
+= 検索時間：計測場所と粒度
+
+  * アプリケーション
+    * 全体の時間
+  * HTTPサーバー
+    * Droonga側の処理全体の時間\n
+      (('note:（X-Response-Time HTTPヘッダー）'))
+  * エンジン
+    * 各処理の時間\n
+      (('note:（クエリーログ：未実装）'))
+
+= キャッシュヒット率
+
+(('tag:center'))
+http://.../statistics/cache
+
+  # coderay json
+  {
+   "nGets": 8,
+   "nHits": 6,
+   "hitRatio": 0.75
+  }
+
+= CPU使用率
+
+  * ボトルネックはCPUになるはず
+  * HTTPサーバーの場合
+    * 数を増やして負荷分散
+  * エンジンの場合
+    * CPUのコア数までワーカーを増やす
+    * リクエスト受信エンジンを分散
+
+= HTTPサーバーの負荷分散
+
+  # image
+  # src = images/droonga-http-server-cpu-performance.svg
+  # relative-height = 100
+
+= エンジンの負荷分散
+
+  # image
+  # src = images/droonga-engine-cpu-performance.svg
+  # relative-height = 100
+
+= おさらい
+
+  * 目的
+    * 高速化
+    * ボトルネックの解消
+  * 監視項目
+    * 検索時間(('note:（ボトルネックの解消）'))
+    * キャッシュヒット率(('note:（高速化）'))
+    * CPU使用率(('note:（ボトルネックの解消）'))
+
+= 構成変更
+
+  * 死活監視
+  * パフォーマンス監視
+  * ((*クラスター構成の変更方法*))
 
