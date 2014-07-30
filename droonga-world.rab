@@ -317,9 +317,13 @@ http://.../statistics/cache
   * パフォーマンス監視
   * ((*クラスター構成の変更方法*))
 
-= Droongaクラスターの構成
+= Droongaクラスターの構成図
 
-# TODO: 図を入れる
+  # image
+  # src = images/droonga-engine-cluster-data-architecture.svg
+  # relative-width = 100
+
+= Droongaクラスターの構成
 
   * シャーディング構成
     * レプリカ毎に設定可
@@ -328,9 +332,13 @@ http://.../statistics/cache
   * レプリカの増減
     * 運用しながら変更可
 
-= 構成変更の基本作戦
+= 構成変更の基本作戦図
 
-# TODO: 図を入れる
+  # image
+  # src = images/droonga-engine-cluster-change-architecture.svg
+  # relative-height = 100
+
+= 構成変更の基本作戦
 
   * レプリカを1つ外す
   * ↑からデータをダンプ
